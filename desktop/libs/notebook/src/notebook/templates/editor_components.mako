@@ -3166,10 +3166,14 @@ ${ sqlSyntaxDropdown.sqlSyntaxDropdown() }
           isAssistAvailable = viewModel.assistAvailable();
           wasLeftPanelVisible = viewModel.isLeftPanelVisible();
           wasRightPanelVisible = viewModel.isRightPanelVisible();
-          huePubSub.publish('side.panels.hide');
+          huePubSub.publish('side.panels.hide', true);
+          viewModel.assistWithoutStorage(true);
           viewModel.assistAvailable(false);
           viewModel.isLeftPanelVisible(false);
           viewModel.isRightPanelVisible(false);
+          window.setTimeout(function(){
+            viewModel.assistWithoutStorage(false);
+          }, 0);
           $(".navigator").hide();
           $(".add-snippet").hide();
           % if conf.CUSTOM.BANNER_TOP_HTML.get():
@@ -3180,10 +3184,14 @@ ${ sqlSyntaxDropdown.sqlSyntaxDropdown() }
           redrawFixedHeaders(200);
           $(window).bind("keydown", "esc", exitPlayerMode);
         } else {
-          huePubSub.publish('side.panels.show');
+          huePubSub.publish('side.panels.show', true);
+          viewModel.assistWithoutStorage(true);
           viewModel.isLeftPanelVisible(wasLeftPanelVisible);
           viewModel.isRightPanelVisible(wasRightPanelVisible);
           viewModel.assistAvailable(isAssistAvailable);
+          window.setTimeout(function(){
+            viewModel.assistWithoutStorage(false);
+          }, 0);
           $(".navigator").show();
           $(".add-snippet").show();
           % if conf.CUSTOM.BANNER_TOP_HTML.get():
